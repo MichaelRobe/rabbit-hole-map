@@ -3,9 +3,8 @@ const apiConfig = {
   baseParams: {
     origin: '*',
     action: 'parse',
-    format: 'json',
-    generator: 'links',
-    gpllimit: 500
+    prop: 'links',
+    format: 'json'
 
   }
 };

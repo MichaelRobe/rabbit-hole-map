@@ -4,15 +4,14 @@ import FileUpload from '../components/FileUpload/FileUpload';
 import GraphComponent from '../components/Graph/Graph';
 
 import { useState } from 'react';
-import { Button, Toolbar } from '@mui/material';
+import { Box, Button, Toolbar } from '@mui/material';
 
 const Home = () => {
 
     const [pages, setPages] = useState([]);
 
     return (
-        <Container>
-            <Toolbar />
+        <Container sx={{ display: 'flex', justifyContent: 'center'}}>
             <FileUpload setPages={setPages}  />
             <GraphComponent pages={pages} />
         </Container>

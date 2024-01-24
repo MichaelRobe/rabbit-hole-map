@@ -1,5 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useDropzone } from 'react-dropzone'
+import BouncingUploadIcon from "../../styled_components/BouncingUploadIcon";
+
 import RelatedPageService from "../../Services/RelatedPageService";
 
 
@@ -26,7 +28,10 @@ const FileUpload = ({ setPages }) => {
     backgroundColor: '#303030',
     color: '#919191',
     outline: 'none',
-    transition: 'all .24s ease-in-out'
+    transition: 'all .24s ease-in-out',
+    position: 'absolute',
+    zIndex: '10',
+    marginTop: '20px' 
   };
 
   const focusedStyle = {
@@ -88,6 +93,7 @@ const FileUpload = ({ setPages }) => {
   return (
     <div  {...getRootProps({ style })}>
       <input {...getInputProps()} />
+      <BouncingUploadIcon className={isDragAccept ? 'animate-bounce' : ''} fontSize="large" /> 
       {isDragReject ? <p>JSON files only</p> : <p>Upload Browser History ...</p>}
     </div>
   );
