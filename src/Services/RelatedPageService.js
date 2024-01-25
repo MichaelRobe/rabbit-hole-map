@@ -3,10 +3,10 @@ import wikiApi from '../api_wiki/api';
 import { blue } from '@mui/material/colors';
 
 const RelatedPageService = {
-    getGraph: async (pages) => {
+    getGraph: async (pages, progress, setProgress) => {
         return {
             nodes: getNodes(pages),
-            links: await getEdges(pages)
+            links: await getEdges(pages, progress, setProgress)
         };
     },
 
@@ -38,8 +38,11 @@ async function getContent(pageTitle) {
     }
 }
 
-async function getEdges(pages) {
+async function getEdges(pages, setProgress) {
     var edges = [];
+    var progress = 1;
+    setProgress(progress);
+        
     // Create a promise for each page
     const pagePromises = pages.map(async (page) => {
         const wikiTitle = getWikiTitle(page.url);
@@ -50,12 +53,16 @@ async function getEdges(pages) {
         visitedRelatedPages.forEach((visitedRelatedPage) => {
             edges.push({ source: wikiTitle, target: visitedRelatedPage });
         });
+
+        // Update the progress state
+        setProgress(progress++);
     });
 
     // Wait for all promises to resolve before continuing
     await Promise.all(pagePromises);
     return edges;
 }
+
 
 function getNodes(pages) {
     return pages.map((page) => { return { id: getWikiTitle(page.url) } })

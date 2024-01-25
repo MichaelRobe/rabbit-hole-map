@@ -7,7 +7,7 @@ import StyledFileUpload from "../../styled_components/StyledFileUpload";
 import BouncingUploadIcon from "../../styled_components/BouncingUploadIcon";
 
 
-const FileUpload = ({ setPages }) => {
+const FileUpload = ({ pages, setPages, progress }) => {
 
   const [file, setFile] = useState(
     {
@@ -46,8 +46,10 @@ const FileUpload = ({ setPages }) => {
     isDragReject
   } = useDropzone({ onDrop, accept: {'application/json': ['.json']} });
 
+  const progressPercent = (progress / pages.length) * 100;
+
   return (
-    <StyledFileUpload  {...getRootProps() } isFocused={isFocused} isDragAccept={isDragAccept} isDragReject={isDragReject}>
+    <StyledFileUpload  {...getRootProps() } isFocused={isFocused} isDragAccept={isDragAccept} isDragReject={isDragReject} progress={progressPercent}>
       <input {...getInputProps()} />
       <BouncingUploadIcon isDragAccept={isDragAccept} fontSize="large" /> 
       {isDragReject ? <p>JSON files only</p> : <p>Upload Browser History ...</p>}
