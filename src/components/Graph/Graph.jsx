@@ -2,7 +2,6 @@ import { ForceGraph2D, ForceGraph3D } from 'react-force-graph';
 import RelatedPageService from "../../Services/RelatedPageService";
 import { useEffect, useState } from "react";
 import SpriteText from 'three-spritetext';
-import { link } from 'd3';
 
 // Graph Component
 const GraphComponent = ({ pages, isGraph3D, progress, setProgress }) => {
