@@ -26,8 +26,6 @@ const RelatedPageService = {
         );
         return uniquePages;
     }
-
-
 }
 
 

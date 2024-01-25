@@ -14,9 +14,7 @@ const bounce = keyframes`
 `;
 
 const BouncingUploadIcon = styled(UploadFileIcon)`
-  &.animate-bounce {
-    animation: ${bounce} 1s infinite;
-  }
+  animation: ${(props) => (props.isDragAccept ? bounce : '')} 1s infinite;
 `;
 
 export default BouncingUploadIcon;

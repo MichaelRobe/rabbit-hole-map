@@ -1,13 +1,14 @@
 import { createTheme, responsiveFontSizes } from '@mui/material';
+import { blueGrey, grey } from '@mui/material/colors';
 
 const theme = createTheme({
     palette: {
         type: 'dark',
         primary: {
-            main: '#90caf9',
+            main: '#000011',
         },
         secondary: {
-            main: '#f59b20',
+            main: grey[500],
         },
         background: {
             default: '#121212',

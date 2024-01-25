@@ -1,8 +1,10 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useDropzone } from 'react-dropzone'
-import BouncingUploadIcon from "../../styled_components/BouncingUploadIcon";
+
 
 import RelatedPageService from "../../Services/RelatedPageService";
+import StyledFileUpload from "../../styled_components/StyledFileUpload";
+import BouncingUploadIcon from "../../styled_components/BouncingUploadIcon";
 
 
 const FileUpload = ({ setPages }) => {
@@ -15,40 +17,11 @@ const FileUpload = ({ setPages }) => {
     }
   );
 
-  const baseStyle = {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: '#919191',
-    borderStyle: 'dashed',
-    backgroundColor: '#303030',
-    color: '#919191',
-    outline: 'none',
-    transition: 'all .24s ease-in-out',
-    position: 'absolute',
-    zIndex: '10',
-    marginTop: '20px' 
-  };
-
-  const focusedStyle = {
-    borderColor: '#2196f3'
-  };
-
-  const acceptStyle = {
-    borderColor: '#00e676'
-  };
-
-  const rejectStyle = {
-    borderColor: '#ff1744'
-  };
-
-  const activeStyle = {
-    borderColor: 'green'
-  };
+  useEffect(() => {
+    setPages([])
+    const filteredPages = RelatedPageService.getFilteredWikiPages(file['Browser History']);
+    setPages(filteredPages)
+  }, [file]);
 
   
 
@@ -73,29 +46,12 @@ const FileUpload = ({ setPages }) => {
     isDragReject
   } = useDropzone({ onDrop, accept: {'application/json': ['.json']} });
 
-  const style = useMemo(() => ({
-    ...baseStyle,
-    ...(isFocused ? focusedStyle : {}),
-    ...(isDragAccept ? acceptStyle : {}),
-    ...(isDragReject ? rejectStyle : {})
-  }), [
-    isFocused,
-    isDragAccept,
-    isDragReject,
-  ]);
-
-  useEffect(() => {
-    setPages([])
-    const filteredPages = RelatedPageService.getFilteredWikiPages(file['Browser History']);
-    setPages(filteredPages)
-  }, [file]);
-
   return (
-    <div  {...getRootProps({ style })}>
+    <StyledFileUpload  {...getRootProps() } isFocused={isFocused} isDragAccept={isDragAccept} isDragReject={isDragReject}>
       <input {...getInputProps()} />
-      <BouncingUploadIcon className={isDragAccept ? 'animate-bounce' : ''} fontSize="large" /> 
+      <BouncingUploadIcon isDragAccept={isDragAccept} fontSize="large" /> 
       {isDragReject ? <p>JSON files only</p> : <p>Upload Browser History ...</p>}
-    </div>
+    </StyledFileUpload>
   );
 }
 
