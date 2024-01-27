@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDropzone } from 'react-dropzone'
 
 
@@ -30,8 +30,16 @@ const FileUpload = ({ pages, setPages, progress }) => {
       const reader = new FileReader();
 
       reader.onload = () => {
-        const fileContent = JSON.parse(reader.result);
-        setFile(fileContent);
+        try {
+          const fileContent = JSON.parse(reader.result);
+          setFile(fileContent);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      reader.onerror = (error) => {
+        console.log(error);
       };
 
       reader.readAsText(file);
@@ -41,7 +49,6 @@ const FileUpload = ({ pages, setPages, progress }) => {
   const {
     getRootProps,
     getInputProps,
-    isFocused,
     isDragAccept,
     isDragReject
   } = useDropzone({ onDrop, accept: {'application/json': ['.json']} });
@@ -49,9 +56,9 @@ const FileUpload = ({ pages, setPages, progress }) => {
   const progressPercent = (progress / pages.length) * 100;
 
   return (
-    <StyledFileUpload  {...getRootProps() } isFocused={isFocused} isDragAccept={isDragAccept} isDragReject={isDragReject} progress={progressPercent}>
+    <StyledFileUpload  {...getRootProps() } isdragaccept={isDragAccept.toString()} progress={progressPercent}>
       <input {...getInputProps()} />
-      <BouncingUploadIcon isDragAccept={isDragAccept} fontSize="large" /> 
+      <BouncingUploadIcon isdragaccept={isDragAccept.toString()} fontSize="large" /> 
       {isDragReject ? <p>JSON files only</p> : <p>Upload Browser History ...</p>}
     </StyledFileUpload>
   );
